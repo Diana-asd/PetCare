@@ -1,9 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="25436" systemVersion="25G72" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Alergia" representedClassName="Alergia" syncable="YES" codeGenerationType="class">
+        <attribute name="alergeno" optional="YES" attributeType="String"/>
+        <attribute name="fechaDetecc" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="notas" optional="YES" attributeType="String"/>
+        <attribute name="reaccion" optional="YES" attributeType="String"/>
+        <relationship name="mascota" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mascota" inverseName="alergias" inverseEntity="Mascota"/>
     </entity>
-    <elements>
-        <element name="Item" positionX="-63" positionY="-18" width="128" height="44"/>
-    </elements>
+    <entity name="Cirugia" representedClassName="Cirugia" syncable="YES" codeGenerationType="class">
+        <attribute name="fecha" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="gravedad" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nombre" attributeType="String"/>
+        <attribute name="notas" optional="YES" attributeType="String"/>
+        <attribute name="veterinario" optional="YES" attributeType="String"/>
+        <relationship name="mascota" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mascota" inverseName="cirugias" inverseEntity="Mascota"/>
+    </entity>
+    <entity name="Desparasitacion" representedClassName="Desparasitacion" syncable="YES" codeGenerationType="class">
+        <attribute name="fecha" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nota" optional="YES" attributeType="String"/>
+        <attribute name="producto" optional="YES" attributeType="String"/>
+        <attribute name="proxFecha" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="tipo" optional="YES" attributeType="String"/>
+        <relationship name="mascota" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mascota" inverseName="desparasitaciones" inverseEntity="Mascota"/>
+    </entity>
+    <entity name="Enfermedad" representedClassName="Enfermedad" syncable="YES" codeGenerationType="class">
+        <attribute name="estado" optional="YES" attributeType="String"/>
+        <attribute name="fechaInic" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nombre" attributeType="String"/>
+        <attribute name="nota" optional="YES" attributeType="String"/>
+        <attribute name="tratamiento" optional="YES" attributeType="String"/>
+        <relationship name="mascota" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mascota" inverseName="enfermedades" inverseEntity="Mascota"/>
+    </entity>
+    <entity name="Mascota" representedClassName="Mascota" syncable="YES" codeGenerationType="class">
+        <attribute name="edad" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="especie" attributeType="String"/>
+        <attribute name="fechaNac" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="foto" optional="YES" attributeType="Binary"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nombre" attributeType="String"/>
+        <attribute name="notas" optional="YES" attributeType="String"/>
+        <attribute name="raza" optional="YES" attributeType="String"/>
+        <attribute name="sexo" optional="YES" attributeType="String"/>
+        <relationship name="alergias" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Alergia" inverseName="mascota" inverseEntity="Alergia"/>
+        <relationship name="cirugias" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Cirugia" inverseName="mascota" inverseEntity="Cirugia"/>
+        <relationship name="desparasitaciones" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Desparasitacion" inverseName="mascota" inverseEntity="Desparasitacion"/>
+        <relationship name="enfermedades" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Enfermedad" inverseName="mascota" inverseEntity="Enfermedad"/>
+        <relationship name="sintomas" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Sintoma" inverseName="mascota" inverseEntity="Sintoma"/>
+        <relationship name="vacunas" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Vacuna" inverseName="mascota" inverseEntity="Vacuna"/>
+    </entity>
+    <entity name="Sintoma" representedClassName="Sintoma" syncable="YES" codeGenerationType="class">
+        <attribute name="descripcion" attributeType="String"/>
+        <attribute name="fecha" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nota" attributeType="String"/>
+        <attribute name="severidad" optional="YES" attributeType="String"/>
+        <relationship name="mascota" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mascota" inverseName="sintomas" inverseEntity="Mascota"/>
+    </entity>
+    <entity name="Vacuna" representedClassName="Vacuna" syncable="YES" codeGenerationType="class">
+        <attribute name="fecha" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nombre" optional="YES" attributeType="String"/>
+        <attribute name="proxFecha" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="mascota" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mascota" inverseName="vacunas" inverseEntity="Mascota"/>
+    </entity>
 </model>
