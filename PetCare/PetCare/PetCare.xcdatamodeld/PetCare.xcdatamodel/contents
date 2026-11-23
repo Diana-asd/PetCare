@@ -2,7 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="25436" systemVersion="25G72" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Alergia" representedClassName="Alergia" syncable="YES" codeGenerationType="class">
         <attribute name="alergeno" optional="YES" attributeType="String"/>
-        <attribute name="fechaDetecc" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="fechaDeteccion" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="notas" optional="YES" attributeType="String"/>
         <attribute name="reaccion" optional="YES" attributeType="String"/>
@@ -20,18 +20,18 @@
     <entity name="Desparasitacion" representedClassName="Desparasitacion" syncable="YES" codeGenerationType="class">
         <attribute name="fecha" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="nota" optional="YES" attributeType="String"/>
+        <attribute name="notas" optional="YES" attributeType="String"/>
         <attribute name="producto" optional="YES" attributeType="String"/>
-        <attribute name="proxFecha" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="proximaFecha" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="tipo" optional="YES" attributeType="String"/>
         <relationship name="mascota" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mascota" inverseName="desparasitaciones" inverseEntity="Mascota"/>
     </entity>
     <entity name="Enfermedad" representedClassName="Enfermedad" syncable="YES" codeGenerationType="class">
         <attribute name="estado" optional="YES" attributeType="String"/>
-        <attribute name="fechaInic" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="fechaInicio" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="nombre" attributeType="String"/>
-        <attribute name="nota" optional="YES" attributeType="String"/>
+        <attribute name="notas" optional="YES" attributeType="String"/>
         <attribute name="tratamiento" optional="YES" attributeType="String"/>
         <relationship name="mascota" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mascota" inverseName="enfermedades" inverseEntity="Mascota"/>
     </entity>
@@ -56,7 +56,7 @@
         <attribute name="descripcion" attributeType="String"/>
         <attribute name="fecha" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="nota" attributeType="String"/>
+        <attribute name="notas" attributeType="String"/>
         <attribute name="severidad" optional="YES" attributeType="String"/>
         <relationship name="mascota" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mascota" inverseName="sintomas" inverseEntity="Mascota"/>
     </entity>
@@ -64,7 +64,9 @@
         <attribute name="fecha" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="nombre" optional="YES" attributeType="String"/>
-        <attribute name="proxFecha" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="notas" optional="YES" attributeType="String"/>
+        <attribute name="proximaFecha" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="veterinario" optional="YES" attributeType="String"/>
         <relationship name="mascota" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mascota" inverseName="vacunas" inverseEntity="Mascota"/>
     </entity>
 </model>
