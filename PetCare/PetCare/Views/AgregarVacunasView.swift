@@ -41,7 +41,7 @@ struct AgregarVacunaView: View {
                     TextField("Notas (opcional)", text: $notas, axis: .vertical)
                 }
             }
-            .navigationTitle("Nueva vacuna")
+            .navigationTitle("Nueva vacuna").fondoLista()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

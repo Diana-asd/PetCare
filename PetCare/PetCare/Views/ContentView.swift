@@ -17,28 +17,31 @@ struct ContentView: View {
     private var mascotas: FetchedResults<Mascota>
 
     @State private var mostrarFormulario = false
+    @State private var mascotaAEliminar: Mascota?
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(mascotas) { mascota in
-                    NavigationLink {
-                        DetalleMascotaView(mascota: mascota)
-                    } label: {
-                        HStack(spacing: 12) {
-                            FotoMascotaView(data: mascota.foto, tamano: 52)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(mascota.nombre ?? "Sin nombre")
-                                    .font(.headline)
-                                Text(mascota.especie ?? "")
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
+            ScrollView {
+                LazyVStack(spacing: 12) {
+                    ForEach(mascotas) { mascota in
+                        NavigationLink {
+                            DetalleMascotaView(mascota: mascota)
+                        } label: {
+                            FilaMascotaView(mascota: mascota)
+                        }
+                        .buttonStyle(.plain)
+                        .contextMenu {
+                            Button(role: .destructive) {
+                                mascotaAEliminar = mascota
+                            } label: {
+                                Label("Eliminar", systemImage: "trash")
                             }
                         }
                     }
                 }
-                .onDelete(perform: eliminar)
+                .padding()
             }
+            .background { FondoPatitas() }
             .overlay {
                 if mascotas.isEmpty {
                     ContentUnavailableView("Sin mascotas",
@@ -50,18 +53,37 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button { mostrarFormulario = true } label: {
-                        Image(systemName: "plus")
+                        Image(systemName: "plus.circle.fill")
+                            .font(.title2)
                     }
                 }
             }
             .sheet(isPresented: $mostrarFormulario) {
                 AgregarMascotaView()
             }
+            .confirmationDialog(
+                "¿Eliminar a \(mascotaAEliminar?.nombre ?? "esta mascota")?",
+                isPresented: Binding(get: { mascotaAEliminar != nil },
+                                     set: { if !$0 { mascotaAEliminar = nil } }),
+                titleVisibility: .visible
+            ) {
+                Button("Eliminar con todo su historial", role: .destructive) {
+                    if let mascota = mascotaAEliminar {
+                        eliminar(mascota)
+                    }
+                    mascotaAEliminar = nil
+                }
+                Button("Cancelar", role: .cancel) {
+                    mascotaAEliminar = nil
+                }
+            } message: {
+                Text("Se borrarán sus vacunas, alergias y demás registros. Esta acción no se puede deshacer.")
+            }
         }
     }
 
-    private func eliminar(_ offsets: IndexSet) {
-        offsets.map { mascotas[$0] }.forEach(viewContext.delete)
+    private func eliminar(_ mascota: Mascota) {
+        viewContext.delete(mascota)
         try? viewContext.save()
     }
 }

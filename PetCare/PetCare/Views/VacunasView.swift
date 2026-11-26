@@ -37,7 +37,7 @@ struct VacunasView: View {
                                        description: Text("Toca + para registrar la primera"))
             }
         }
-        .navigationTitle("Vacunas")
+        .navigationTitle("Vacunas").fondoLista()
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button { mostrarFormulario = true } label: {

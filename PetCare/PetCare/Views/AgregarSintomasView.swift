@@ -38,7 +38,7 @@ struct AgregarSintomaView: View {
                     TextField("Notas (opcional)", text: $notas, axis: .vertical)
                 }
             }
-            .navigationTitle("Nuevo síntoma")
+            .navigationTitle("Nuevo síntoma").fondoLista()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

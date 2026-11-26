@@ -40,7 +40,7 @@ struct AgregarEnfermedadView: View {
                     TextField("Notas (opcional)", text: $notas, axis: .vertical)
                 }
             }
-            .navigationTitle("Nueva enfermedad")
+            .navigationTitle("Nueva enfermedad").fondoLista()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

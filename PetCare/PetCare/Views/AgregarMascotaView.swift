@@ -65,7 +65,7 @@ struct AgregarMascotaView: View {
                         TextField("Notas (opcional)", text: $notas, axis: .vertical)
                     }
                 }
-                .navigationTitle("Nueva mascota")
+                .navigationTitle("Nueva mascota").fondoLista()
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Cancelar") { dismiss() }

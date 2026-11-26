@@ -45,7 +45,7 @@ struct AgregarDesparasitacionView: View {
                     TextField("Notas (opcional)", text: $notas, axis: .vertical)
                 }
             }
-            .navigationTitle("Nueva desparasitación")
+            .navigationTitle("Nueva desparasitación").fondoLista()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

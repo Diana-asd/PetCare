@@ -38,7 +38,7 @@ struct AgregarCirugiaView: View {
                     TextField("Notas (opcional)", text: $notas, axis: .vertical)
                 }
             }
-            .navigationTitle("Nueva cirugía")
+            .navigationTitle("Nueva cirugía").fondoLista()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

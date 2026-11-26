@@ -37,7 +37,7 @@ struct EnfermedadesView: View {
                                        description: Text("Toca + para registrar una"))
             }
         }
-        .navigationTitle("Enfermedades")
+        .navigationTitle("Enfermedades").fondoLista()
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button { mostrarFormulario = true } label: {

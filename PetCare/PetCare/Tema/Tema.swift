@@ -51,4 +51,10 @@ extension View {
                         in: RoundedRectangle(cornerRadius: Tema.radioTarjeta))
             .shadow(color: .black.opacity(0.05), radius: 6, y: 2)
     }
+    /// Fondo de la app para listas y formularios.
+    func fondoLista() -> some View {
+        self
+            .scrollContentBackground(.hidden)
+            .background { FondoPatitas() }
+    }
 }

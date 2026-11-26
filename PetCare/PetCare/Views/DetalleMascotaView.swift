@@ -42,6 +42,7 @@ struct DetalleMascotaView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
+                relleno
                 encabezado
                 VStack(spacing: 12) {
                     tarjetaFicha
@@ -79,7 +80,16 @@ struct DetalleMascotaView: View {
     }
 
     // MARK: - Piezas de la pantalla
-
+    private var relleno: some View {
+            Color.clear
+                .frame(height: 0)
+                .overlay(alignment: .bottom) {
+                    Color.accentColor.opacity(0.28)
+                        .frame(height: 1200)
+                        .allowsHitTesting(false)
+                }
+        }
+    
     private var encabezado: some View {
         VStack(spacing: 8) {
             PhotosPicker(selection: $fotoItem, matching: .images) {

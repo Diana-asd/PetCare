@@ -37,7 +37,7 @@ struct CirugiasView: View {
                                        description: Text("Toca + para registrar una"))
             }
         }
-        .navigationTitle("Cirugías")
+        .navigationTitle("Cirugías").fondoLista()
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button { mostrarFormulario = true } label: {

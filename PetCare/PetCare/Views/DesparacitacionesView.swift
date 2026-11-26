@@ -37,7 +37,7 @@ struct DesparasitacionesView: View {
                                        description: Text("Toca + para registrar la primera"))
             }
         }
-        .navigationTitle("Desparasitaciones")
+        .navigationTitle("Desparasitaciones").fondoLista()
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button { mostrarFormulario = true } label: {

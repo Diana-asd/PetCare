@@ -37,7 +37,7 @@ struct SintomasView: View {
                                        description: Text("Toca + para anotar uno"))
             }
         }
-        .navigationTitle("Síntomas")
+        .navigationTitle("Síntomas").fondoLista()
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button { mostrarFormulario = true } label: {

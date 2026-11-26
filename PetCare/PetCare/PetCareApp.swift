@@ -12,10 +12,11 @@ import CoreData
 struct PetCareApp: App {
     let persistenceController = PersistenceController.shared
     @State private var mensaje: String?
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RaizView()
                 .environment(\.managedObjectContext,
                              persistenceController.container.viewContext)
                 .onOpenURL { url in

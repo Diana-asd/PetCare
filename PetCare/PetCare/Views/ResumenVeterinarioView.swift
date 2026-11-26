@@ -130,7 +130,7 @@ struct ResumenVeterinarioView: View {
                 }
             }
         }
-        .navigationTitle("Ficha veterinaria")
+        .navigationTitle("Ficha veterinaria").fondoLista()
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {

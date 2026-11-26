@@ -37,7 +37,7 @@ struct AlergiasView: View {
                                        description: Text("Toca + para registrar una"))
             }
         }
-        .navigationTitle("Alergias")
+        .navigationTitle("Alergias").fondoLista()
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button { mostrarFormulario = true } label: {

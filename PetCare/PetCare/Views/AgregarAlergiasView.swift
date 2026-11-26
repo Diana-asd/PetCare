@@ -38,7 +38,7 @@ struct AgregarAlergiaView: View {
                     TextField("Notas (opcional)", text: $notas, axis: .vertical)
                 }
             }
-            .navigationTitle("Nueva alergia")
+            .navigationTitle("Nueva alergia").fondoLista()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
