@@ -4,7 +4,7 @@
 //
 //  Created by Christian on 23/11/26.
 //
-
+import FirebaseAuth
 import SwiftUI
 import CoreData
 import PhotosUI
@@ -96,6 +96,7 @@ struct AgregarMascotaView: View {
             mascota.fechaNac = conoceFecha ? fechaNac : nil
             mascota.notas = notas.isEmpty ? nil : notas
             mascota.foto = fotoData
+            mascota.propietarioUID = Auth.auth().currentUser?.uid
             do {
                 try viewContext.save()
                 dismiss()

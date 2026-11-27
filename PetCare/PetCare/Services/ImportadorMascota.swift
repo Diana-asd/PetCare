@@ -4,9 +4,9 @@
 //
 //  Created by Christian on 25/11/26.
 //
-
 import Foundation
 import CoreData
+import FirebaseAuth
 
 enum ErrorImportacion: LocalizedError {
     case versionNueva
@@ -21,22 +21,44 @@ enum ErrorImportacion: LocalizedError {
 
 enum ImportadorMascota {
 
+    /// Importa un archivo .petcare como una mascota nueva de la cuenta actual.
     @discardableResult
     static func importar(desde url: URL, en contexto: NSManagedObjectContext) throws -> Mascota {
         let accede = url.startAccessingSecurityScopedResource()
         defer { if accede { url.stopAccessingSecurityScopedResource() } }
 
         let datos = try Data(contentsOf: url)
+        let dto = try decodificar(datos)
+        let mascota = crear(desde: dto, id: nil,
+                            propietarioUID: Auth.auth().currentUser?.uid,
+                            en: contexto)
+        do {
+            try contexto.save()
+        } catch {
+            contexto.rollback()
+            throw error
+        }
+        return mascota
+    }
+
+    static func decodificar(_ datos: Data) throws -> MascotaExportable {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         let dto = try decoder.decode(MascotaExportable.self, from: datos)
-
         guard dto.version <= MascotaExportable.versionActual else {
             throw ErrorImportacion.versionNueva
         }
+        return dto
+    }
 
+    /// Crea la mascota y su historial en el contexto (sin guardar).
+    static func crear(desde dto: MascotaExportable,
+                      id: UUID?,
+                      propietarioUID: String?,
+                      en contexto: NSManagedObjectContext) -> Mascota {
         let mascota = Mascota(context: contexto)
-        mascota.id = UUID()
+        mascota.id = id ?? UUID()
+        mascota.propietarioUID = propietarioUID
         mascota.nombre = dto.nombre
         mascota.especie = dto.especie
         mascota.raza = dto.raza
@@ -109,12 +131,6 @@ enum ImportadorMascota {
             sintoma.mascota = mascota
         }
 
-        do {
-            try contexto.save()
-        } catch {
-            contexto.rollback()
-            throw error
-        }
         return mascota
     }
 }

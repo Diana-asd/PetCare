@@ -43,6 +43,7 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="nombre" attributeType="String"/>
         <attribute name="notas" optional="YES" attributeType="String"/>
+        <attribute name="propietarioUID" optional="YES" attributeType="String"/>
         <attribute name="raza" optional="YES" attributeType="String"/>
         <attribute name="sexo" optional="YES" attributeType="String"/>
         <relationship name="alergias" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Alergia" inverseName="mascota" inverseEntity="Alergia"/>

@@ -4,20 +4,29 @@
 //
 //  Created by Christian on 19/11/26.
 //
-
 import SwiftUI
 import CoreData
+import FirebaseAuth
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject private var auth: AuthViewModel
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Mascota.nombre, ascending: true)],
-        animation: .default)
-    private var mascotas: FetchedResults<Mascota>
+    private let uid: String
+
+    @FetchRequest private var mascotas: FetchedResults<Mascota>
 
     @State private var mostrarFormulario = false
     @State private var mascotaAEliminar: Mascota?
+    @State private var mostrarRespaldo = false
+
+    init(uid: String) {
+        self.uid = uid
+        _mascotas = FetchRequest(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Mascota.nombre, ascending: true)],
+            predicate: NSPredicate(format: "propietarioUID == %@", uid),
+            animation: .default)
+    }
 
     var body: some View {
         NavigationStack {
@@ -51,6 +60,27 @@ struct ContentView: View {
             }
             .navigationTitle("Mis mascotas")
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Menu {
+                        if let correo = auth.usuario?.email {
+                            Text(correo)
+                        }
+                        Button {
+                            mostrarRespaldo = true
+                                } label: {
+                                Label("Respaldo en la nube", systemImage: "icloud.and.arrow.up")
+                        }
+                        Button(role: .destructive) {
+                            auth.cerrarSesion()
+                        } label: {
+                            Label("Cerrar sesión",
+                                  systemImage: "rectangle.portrait.and.arrow.right")
+                        }
+                    } label: {
+                        Image(systemName: "person.crop.circle")
+                            .font(.title2)
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button { mostrarFormulario = true } label: {
                         Image(systemName: "plus.circle.fill")
@@ -60,6 +90,7 @@ struct ContentView: View {
             }
             .sheet(isPresented: $mostrarFormulario) {
                 AgregarMascotaView()
+                RespaldoView(uid: uid)
             }
             .confirmationDialog(
                 "¿Eliminar a \(mascotaAEliminar?.nombre ?? "esta mascota")?",
@@ -80,15 +111,27 @@ struct ContentView: View {
                 Text("Se borrarán sus vacunas, alergias y demás registros. Esta acción no se puede deshacer.")
             }
         }
+        .onAppear {
+            adoptarHuerfanas()
+        }
     }
 
     private func eliminar(_ mascota: Mascota) {
-        viewContext.delete(mascota)
+            let id = mascota.id
+            viewContext.delete(mascota)
+            try? viewContext.save()
+            if let id {
+                RespaldoService.eliminarEnNube(uid: uid, id: id)
+            }
+        }
+
+    /// Las mascotas creadas antes del login no tienen dueño:
+    private func adoptarHuerfanas() {
+        let peticion: NSFetchRequest<Mascota> = Mascota.fetchRequest()
+        peticion.predicate = NSPredicate(format: "propietarioUID == nil")
+        guard let huerfanas = try? viewContext.fetch(peticion),
+              !huerfanas.isEmpty else { return }
+        huerfanas.forEach { $0.propietarioUID = uid }
         try? viewContext.save()
     }
-}
-
-#Preview {
-    ContentView()
-        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
